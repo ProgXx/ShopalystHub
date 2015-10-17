@@ -1,0 +1,170 @@
+<!Doctype html>
+<!DOCTYPE html>
+<html ng-app="shopalystApp">
+<head>
+	<title>Shopalyst</title>
+	<link rel="stylesheet" href="css/lib/bootstrap.min.css">
+	<link rel="stylesheet" href="css/lib/ngprogress.css">
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body ng-controller="shopController">
+	<header class="page-header">
+		<div class="container">
+			<h1>Shopalyst <small>- one shop shopping portal!</small></h1> 		  
+		</div>
+	</header>
+	<section class="container">
+		<div class="row">
+			<div class="col-md-4">
+				<h2>Filters</h2>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						Division
+					</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-md-4">
+								<input type="checkbox" ng-model="divisionModel.tops" ng-click="filterProduct()">Tops
+							</div>
+							<div class="col-md-4">
+								<input type="checkbox" ng-model="divisionModel.dresses" ng-click="filterProduct()">Dresses
+							</div>
+							<div class="col-md-4">
+								<input type="checkbox" ng-model="divisionModel.footwears" ng-click="filterProduct()">Footwears
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<input type="checkbox" ng-model="divisionModel.bottoms" ng-click="filterProduct()">Bottoms
+							</div>
+							<div class="col-md-6">
+								<input type="checkbox" ng-model="divisionModel.ethnics" ng-click="filterProduct()">Ethnics
+							</div>							
+						</div>
+					</div>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						Merchant
+					</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-md-4">
+								<input type="checkbox" ng-model="merchantFilter.flipkart" ng-click="filterProduct()">Flipkart
+							</div>
+							<div class="col-md-4">
+								<input type="checkbox" ng-model="merchantFilter.amazon" ng-click="filterProduct()">Amazon
+							</div>
+							<div class="col-md-4">
+								<input type="checkbox" ng-model="merchantFilter.jabong" ng-click="filterProduct()">jabong
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-4">
+								<input type="checkbox" ng-model="merchantFilter.trendin" ng-click="filterProduct()">TrendIn
+							</div>
+							<div class="col-md-4">
+								<input type="checkbox" ng-model="merchantFilter.yepme" ng-click="filterProduct()">Yepme
+							</div>
+							<div class="col-md-4">
+								<input type="checkbox" ng-model="merchantFilter.fashionara" ng-click="filterProduct()">fashionara
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-4">
+								<input type="checkbox" ng-model="merchantFilter.snapdeal" ng-click="filterProduct()">Snapdeal
+							</div>
+							<div class="col-md-4">
+								<input type="checkbox" ng-model="merchantFilter.stevemadden" ng-click="filterProduct()">stevemadden
+							</div>
+							<div class="col-md-4">
+								<input type="checkbox" ng-model="merchantFilter.koovs" ng-click="filterProduct()">koovs
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-4">
+								<input type="checkbox" ng-model="merchantFilter.paytm" ng-click="filterProduct()">paytm
+							</div>
+							<div class="col-md-4">
+								<input type="checkbox" ng-model="merchantFilter.adidas" ng-click="filterProduct()">Adidas
+							</div>
+							<div class="col-md-4">
+								<input type="checkbox" ng-model="merchantFilter.craftsvilla" ng-click="filterProduct()">craftsvilla
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-8">
+				<div class="row search">
+					<div class="col-md-6">
+						<button type="button" class="btn btn-default" ng-click="showLikedProducts()" ng-show="!showLiked">Show Liked Products <span class="badge" ng-bind="totalLikes"></span></button>
+						<button type="button" class="btn btn-default" ng-click="showAllProducts()" ng-show="showLiked">Show All Products</button>
+					</div>
+					<div class="col-md-6">
+						<div class="input-group">
+							<span class="input-group-addon" id="basic-addon1"><i class="glyphicon glyphicon-search"></i></span>
+							<input type="search" class="form-control" placeholder="Search (by title , merchant etc..)" aria-describedby="basic-addon1" ng-model="searchBy">
+						</div>
+					</div>
+				</div>
+				<div class="panel panel-default" ng-repeat="product in productList | filter : searchBy">				
+					<div class="panel-heading" ng-bind="product.title">
+					</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-md-4">
+								<a href="{{product.productUrl}}">
+									<img class="img-responsive img-rounded" ng-src="{{product.imageUrl}}" alt="{{product.seoTitle}}">
+								</a>
+								<div class="row">
+									<div class="col-md-4">
+										<span ng-bind="'&#8377;'+{{product.offerPrice}}"></span>
+									</div>
+									<div class="col-md-4">
+										<del ng-bind="'&#8377;'+{{product.salePrice}}"></del>
+									</div>
+									<div class="col-md-4">
+										<span ng-bind="{{product.discount}}+'% OFF'"></span>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-8">
+								<table class="table table-responsive table-striped">
+									<tr>
+										<td>Category</td>
+										<td ng-bind="product.division"></td>
+									</tr>
+									<tr>
+										<td>Merchant</td>
+										<td ng-bind="product.merchant"></td>
+									</tr>
+									<tr>
+										<td>Product ID</td>
+										<td ng-bind="product.productId"></td>
+									</tr>
+									<tr>
+										<td>New Arrival</td>
+										<td>
+											<span class="glyphicon glyphicon-ok" aria-hidden="true" ng-show="product.newArrival"></span>
+											<span class="glyphicon glyphicon-remove" aria-hidden="true" ng-show="!product.newArrival"></span>
+										</td>
+									</tr>									
+								</table>
+								<button type="button" class="btn" ng-class="{'btn-default' : !product.like , 'btn-primary' : product.like}" ng-click="likeProduct(product)">
+									<span class="glyphicon glyphicon-thumbs-up">
+									Like
+								</button>
+									
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<script src="js/lib/angular.min.js"></script>
+	<script src="js/lib/ngprogress.min.js"></script>
+	<script type="text/javascript" src="js/app.js"></script>
+</body>
+</html>
